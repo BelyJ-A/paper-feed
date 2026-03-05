@@ -5,6 +5,7 @@ import datetime
 import time
 from rfeed import Item, Feed, Guid
 from email.utils import parsedate_to_datetime
+from journal_map import get_abbr, clean_title
 
 # --- 配置区域 ---
 OUTPUT_FILE = "filtered_feed.xml"
@@ -130,21 +131,33 @@ def generate_rss_xml(items):
     items = items[:MAX_ITEMS]
     
     for item in items:
-        title = item['title']
+        raw_journal = item['journal']
+
         if not item.get('is_old', False):
-            title = f"[{item['journal']}] {item['title']}"
-            
-        # --- 关键修改：清洗数据 ---
-        clean_title = remove_illegal_xml_chars(title)
+            # 新抓取条目：标题原样来自 RSS，格式为 "[journal_prefix] [ASAP] 论文标题"
+            # 1. 清理标题中的期刊前缀
+            item_title = clean_title(item['title'], raw_journal)
+            # 2. 将 journal 字段映射为标准缩写
+            item_author = get_abbr(raw_journal)
+        else:
+            # 旧条目：标题在上一轮已被写成 "[journal] 论文标题" 的格式（历史逻辑），
+            # 用 raw_journal 清理前缀，确保本轮重新写入时格式干净。
+            item_title = clean_title(item['title'], raw_journal)
+            # 对于已存储的旧条目，author 字段存的是上一轮写入的值，
+            # 尝试再映射一次以确保格式统一
+            item_author = get_abbr(raw_journal)
+
+        # --- 关键修改：清洗非法 XML 字符 ---
+        item_title   = remove_illegal_xml_chars(item_title)
         clean_summary = remove_illegal_xml_chars(item['summary'])
-        clean_journal = remove_illegal_xml_chars(item['journal'])
-        # -----------------------
+        item_author  = remove_illegal_xml_chars(item_author)
+        # ------------------------------------
 
         rss_item = Item(
-            title = clean_title,
+            title = item_title,
             link = item['link'],
             description = clean_summary,
-            author = clean_journal,
+            author = item_author,
             guid = Guid(item['id']),
             pubDate = item['pub_date']
         )

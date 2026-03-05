@@ -67,6 +67,36 @@
 
 ---
 
+## 📖 期刊显示名称映射
+
+Zotero 列表中的「创建者」列默认显示期刊的正式缩写（如 `JACS`、`PRB`、`Nat. Commun.`），标题列也会自动去除来源标注前缀（如 `[Journal of the American Chemical Society: Latest Articles (ACS Publications)] [ASAP]`）。
+
+此功能由 `journal_map.py` 实现，**无需修改主程序**即可扩展。
+
+### 新增期刊映射
+
+在 `journal_map.py` 的 `JOURNAL_MAP` 列表末尾添加一条记录：
+
+```python
+{"prefix": "RSS 标题中方括号内的原始文字", "abbr": "期刊标准缩写"},
+```
+
+**如何获取 prefix？**
+
+运行一次后，在生成的 `filtered_feed.xml` 中找任意一条该期刊的条目，`<author>` 标签内的文字即为对应的 prefix（在映射生效前，author 字段存储的就是 RSS 频道标题原文）。
+
+**示例：**
+
+```python
+# 在 JOURNAL_MAP 列表末尾追加：
+{"prefix": "ACS Catalysis: Latest Articles (ACS Publications)", "abbr": "ACS Catal."},
+{"prefix": "Wiley: Chemistry of Materials: Table of Contents",  "abbr": "Chem. Mater."},
+```
+
+提交更改后，下次 GitHub Actions 运行时自动生效。
+
+---
+
 ## ⚠️ 维护说明
 
 1.  **关键词优化**：若订阅源中无关论文过多，请检查 `keywords.dat` 是否过于宽泛；若漏掉重要论文，请检查是否拼写错误或逻辑过严。
