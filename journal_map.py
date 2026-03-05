@@ -27,6 +27,7 @@ JOURNAL_MAP = [
     # ── arXiv ────────────────────────────────────────────────────────────────
     {"prefix": "cond-mat updates on arXiv.org",             "abbr": "arXiv"},
     {"prefix": "AI for Science - latest papers",            "abbr": "arXiv"},
+    {"prefix": "ChemRxiv",                                  "abbr": "ChemRxiv"},
 
     # ── APS (American Physical Society) ──────────────────────────────────────
     {"prefix": "Recent Articles in Phys. Rev. B",           "abbr": "PRB"},
@@ -90,6 +91,8 @@ JOURNAL_MAP = [
                                                             "abbr": "Energy Environ. Mater."},
     {"prefix": "Wiley: Chinese Journal of Chemistry: Table of Contents",
                                                             "abbr": "Chin. J. Chem."},
+    {"prefix": "Wiley: ENERGY & ENVIRONMENTAL MATERIALS: Table of Contents",
+                                                            "abbr": "Energy Environ. Mater."},                                                            
 
     # ── Elsevier / ScienceDirect ──────────────────────────────────────────────
     {"prefix": "ScienceDirect Publication: Joule",          "abbr": "Joule"},
@@ -128,6 +131,10 @@ JOURNAL_MAP = [
     {"prefix": "iScience",                                  "abbr": "iScience"},
     {"prefix": "Newton",                                    "abbr": "Newton"},
     {"prefix": "Cell Reports Physical Science",             "abbr": "Cell Rep. Phys. Sci."},
+
+    # ── Chinese Chemical Society ──────────────────────────────────────────────
+    {"prefix": "Chinese Chemical Society: CCS Chemistry: Table of Contents",             
+                                                            "abbr": "CCS Chemistry"},
 
     # ── AIP (American Institute of Physics) ───────────────────────────────────
     {"prefix": "APL Materials Current Issue",               "abbr": "APL Mater."},

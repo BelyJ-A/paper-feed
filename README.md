@@ -69,7 +69,7 @@
 
 ## 📖 期刊显示名称映射
 
-Zotero 列表中的「创建者」列默认显示期刊的正式缩写（如 `JACS`、`PRB`、`Nat. Commun.`），标题列也会自动去除来源标注前缀（如 `[Journal of the American Chemical Society: Latest Articles (ACS Publications)] [ASAP]`）。
+Zotero 列表中的「出版物」列默认显示期刊的正式缩写（如 `JACS`、`PRB`、`Nat. Commun.`），标题列也会自动去除来源标注前缀（如 `[Journal of the American Chemical Society: Latest Articles (ACS Publications)] [ASAP]`）。
 
 此功能由 `journal_map.py` 实现，**无需修改主程序**即可扩展。
 
