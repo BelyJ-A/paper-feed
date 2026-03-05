@@ -3,9 +3,25 @@ import re
 import os
 import datetime
 import time
-from rfeed import Item, Feed, Guid
+from rfeed import Item, Feed, Guid, Serializable
 from email.utils import parsedate_to_datetime
 from journal_map import get_abbr, clean_title
+
+
+class DcSource(Serializable):
+    """
+    rfeed extension that writes <dc:source>value</dc:source> into an RSS item.
+    Zotero reads this as the publicationTitle (出版物) field.
+    The dc namespace (xmlns:dc=...) is already declared by rfeed's Feed._get_attributes().
+    """
+
+    def __init__(self, source):
+        Serializable.__init__(self)
+        self.source = source
+
+    def publish(self, handler):
+        Serializable.publish(self, handler)
+        self._write_element("dc:source", self.source)
 
 # --- 配置区域 ---
 OUTPUT_FILE = "filtered_feed.xml"
@@ -157,9 +173,9 @@ def generate_rss_xml(items):
             title = item_title,
             link = item['link'],
             description = clean_summary,
-            author = item_author,
             guid = Guid(item['id']),
-            pubDate = item['pub_date']
+            pubDate = item['pub_date'],
+            extensions = [DcSource(item_author)]
         )
         rss_items.append(rss_item)
 
